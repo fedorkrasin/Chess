@@ -54,6 +54,7 @@ namespace Chess
 
         public void Show()
         {
+            Console.Clear();
             Console.WriteLine("\n—————————————————————————————————");
             
             for (var i = 0; i < boardHeight; i++)
@@ -90,7 +91,7 @@ namespace Chess
             Console.WriteLine("\n");
         }
 
-        public void Move(int prevX, int prevY, int newX, int newY)
+        public void Move(int prevY, int prevX, int newY, int newX)
         {
             if (_board[prevX, prevY] != null)
             {
@@ -100,6 +101,34 @@ namespace Chess
             else
             {
                 Console.WriteLine("no piece!");
+            }
+        }
+
+        public void Move()
+        {
+            while (true)
+            {
+                Console.Write("Your turn: ");
+                var turn = Console.ReadLine();
+                if (turn == null)
+                {
+                    Console.WriteLine("null");
+                    continue;
+                }
+
+                var firstPosition = turn[..2];
+                var secondPosition = turn[3..];
+
+                var firstX = firstPosition[0] - '0';
+                var firstY = firstPosition[1] - '0';
+                var secondX = secondPosition[0] - '0';
+                var secondY = secondPosition[1] - '0';
+
+                Console.WriteLine($"{firstX} {firstY} {secondX} {secondY}");
+                
+                Move(firstY, firstX, secondY, secondX);
+                
+                break;
             }
         }
     }
