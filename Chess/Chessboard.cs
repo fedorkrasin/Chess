@@ -89,5 +89,18 @@ namespace Chess
             
             Console.WriteLine("\n");
         }
+
+        public void Move(int prevX, int prevY, int newX, int newY)
+        {
+            if (_board[prevX, prevY] != null)
+            {
+                _board[newX, newY] = _board[prevX, prevY];
+                _board[prevX, prevY] = null;
+            }
+            else
+            {
+                Console.WriteLine("no piece!");
+            }
+        }
     }
 }
