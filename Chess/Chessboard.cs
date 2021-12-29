@@ -55,11 +55,11 @@ namespace Chess
         public void Show()
         {
             Console.Clear();
-            Console.WriteLine("\n—————————————————————————————————");
+            Console.WriteLine("\n   —————————————————————————————————");
             
             for (var i = 0; i < boardHeight; i++)
             {
-                Console.Write("|");
+                Console.Write($" {boardHeight - i} |");
                     
                 for (var j = 0; j < boardWidth; j++)
                 {
@@ -85,13 +85,13 @@ namespace Chess
                 }
 
                 Console.BackgroundColor = ConsoleColor.Black;
-                Console.WriteLine("\n—————————————————————————————————");
+                Console.WriteLine("\n   —————————————————————————————————");
             }
             
-            Console.WriteLine("\n");
+            Console.WriteLine("     A   B   C   D   E   F   G   H\n");
         }
 
-        public void Move(int prevY, int prevX, int newY, int newX)
+        private void Move(int prevY, int prevX, int newY, int newX)
         {
             if (_board[prevX, prevY] != null)
             {
@@ -116,20 +116,25 @@ namespace Chess
                     continue;
                 }
 
-                var firstPosition = turn[..2];
-                var secondPosition = turn[3..];
+                var firstPositionString = turn[..2];
+                var secondPositionString = turn[3..];
 
-                var firstX = firstPosition[0] - '0';
-                var firstY = firstPosition[1] - '0';
-                var secondX = secondPosition[0] - '0';
-                var secondY = secondPosition[1] - '0';
-
-                Console.WriteLine($"{firstX} {firstY} {secondX} {secondY}");
+                var firstPosition = MoveToInt(firstPositionString);
+                var secondPosition = MoveToInt(secondPositionString);
                 
-                Move(firstY, firstX, secondY, secondX);
+                Move(firstPosition.Item1, firstPosition.Item2, secondPosition.Item1, secondPosition.Item2);
                 
                 break;
             }
+        }
+        
+        private static (int, int) MoveToInt(string move)
+        {
+            var moveUpper = move.ToUpper();
+            var horizontal = (moveUpper[0] - '0') % 17;
+            var vertical = boardHeight - 1 - (moveUpper[1] - '0' - 1);
+            Console.WriteLine((horizontal, vertical));
+            return (horizontal, vertical);
         }
     }
 }
